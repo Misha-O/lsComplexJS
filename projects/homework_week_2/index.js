@@ -100,11 +100,10 @@ function upperProps(obj) {
 function createProxy(obj) {
   return new Proxy(obj, {
     set(obj, prop, value) {
-      obj[prop] = value * 2;
+      obj[prop] = value ** 2;
       return true;
     },
   });
 }
-// console.log(createProxy.value1);
 
 export { forEach, map, reduce, upperProps, createProxy };
