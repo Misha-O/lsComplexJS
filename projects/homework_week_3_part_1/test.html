@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <b class="some-class-1">ONE</b>
+    <p class="some-class-2">TWO</p>
+    <div>THREE</div>
+    <b class="some-class-1">FOUR</b>
+    <p class="some-class-2">FOUR</p>
+
+    <script>
+      let block = document.createElement('div');
+      document.body.appendChild(block);
+      observeChildNodes(document.body)();
+      function observeChildNodes(where, fn) {
+        const targetNode = where;
+        const config = { attributes: true, childList: true, subtree: true };
+
+        // Create an observer instance linked to the callback function
+        const observer = new MutationObserver(fn);
+        // Start observing the target node for configured mutations
+        observer.observe(targetNode, config);
+
+        function fn(mutations, observer) {
+          for (const mutation of mutations) {
+            if (mutation.type === 'childList') {
+              console.log('A child node has been added or removed.');
+            } else if (mutation.type === 'attributes') {
+              console.log('The ' + node.attributeName + ' attribute was modified.');
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
