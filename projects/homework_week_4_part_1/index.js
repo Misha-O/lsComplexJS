@@ -29,9 +29,10 @@ function getRandom(min, max) {
 }
 
 document.addEventListener('mousemove', (e) => {
+  // check if smth is dragged -> to move left click coord subtracts mouse position within dragged el
   if (currentDrag) {
-    currentDrag.style.top = `${e.clientY} -  ${startY}px`;
-    currentDrag.style.left = `${e.clientX} -  ${startX}px`;
+    currentDrag.style.top = `${e.clientY - startY}px`;
+    currentDrag.style.left = `${e.clientX - startX}px`;
   }
 });
 
