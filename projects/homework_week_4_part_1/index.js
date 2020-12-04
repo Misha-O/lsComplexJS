@@ -18,11 +18,52 @@
 import './dnd.html';
 
 const homeworkContainer = document.querySelector('#app');
-
-document.addEventListener('mousemove', (e) => {});
-
-export function createDiv() {}
-
 const addDivButton = homeworkContainer.querySelector('#addDiv');
 
-addDivButton.addEventListener('click', function () {});
+let startY = 0;
+let startX = 0;
+let currentDrag;
+
+function getRandom(min, max) {
+  return Math.round(Math.random() * (max - min + 1)) + min;
+}
+
+document.addEventListener('mousemove', (e) => {
+  if (currentDrag) {
+    currentDrag.style.top = `${e.clientY} -  ${startY}px`;
+    currentDrag.style.left = `${e.clientX} -  ${startX}px`;
+  }
+});
+
+export function createDiv() {
+  const divItem = document.createElement('div');
+  divItem.className = 'draggable-div';
+
+  // random size
+  const min = 40;
+  const max = 300;
+  divItem.style.height = `${getRandom(min, max)}px`;
+  divItem.style.width = `${getRandom(min, max)}px`;
+
+  // random position
+  divItem.style.top = `${getRandom(0, window.innerHeight)}px`;
+  divItem.style.left = `${getRandom(0, window.innerWidth)}px`;
+
+  // random color
+  const maxColor = 16777215;
+  divItem.style.backgroundColor = `#${getRandom(0, maxColor).toString(16)}`;
+
+  divItem.addEventListener('mousedown', (e) => {
+    currentDrag = divItem;
+    startX = e.offsetX;
+    startY = e.offsetY;
+  });
+  divItem.addEventListener('mouseup', () => (currentDrag = false));
+
+  return divItem;
+}
+
+addDivButton.addEventListener('click', () => {
+  const divItem = createDiv();
+  homeworkContainer.appendChild(divItem);
+});
